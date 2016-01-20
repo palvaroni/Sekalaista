@@ -1,23 +1,23 @@
 <!doctype html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<title>Ronin ihan turha laskukone :)</title>
-</head>
-  	
-<body style="text-align:center;margin-top:10%;">
+  <head>
+    <meta charset="utf-8">
+    <title>Ronin ihan turha laskukone :)</title>
+	
+  </head>
+  <body style="text-align:center;margin-top:10%;">
 	<h1>Pimpeli pompeli</h1>
 	<h3>Vain kokonaislukuja kiitos :)</h3>
 	<hr>
 	<form id="numberform">
 		<label for="luku">Luku:</label>
-		<input id="luku" type="text" value="" name="luku" placeholder="Numero">
+		<input id="luku" type="text" value="" name="luku" placeholder="Numero (desimaali)">
 		<br>
 		<label for="lkanta">Lähdekantaluku:</label>
 		<input id="lkanta" type="text" value="10" name="lkanta" placeholder="Syöttämäsi numeron kantaluku (2-36)">
 		<br>
 		<label for="kanta">Kohdekantaluku:</label>
-		<input id="kanta" type="text" value="" name="kanta" placeholder="Käännöksen kantaluku (2-36)">
+		<input id="kanta" type="text" value="" name="kanta" placeholder="Kantaluku (2-36)">
 	</form>
 	<div id="output"></div>
   
@@ -85,13 +85,45 @@
 						ans[ind] = 0;
 						ans[ind-1]++;
 					}
-					ans[ind] = ans[ind].toString(k2);
+					ans[ind] = enc(ans[ind]);
 				} if (ans[0] >= k2) {
 					var temp = ans;
 					ans = "1";
 					ans += temp;
 				}
-				ans[0] = ans[0].toString(k2);
+				ans[0] = enc(ans[0]);
+			}
+			
+			function enc(x){ // kikkailu mielessä tehty näin ::))
+				switch(x){
+					case 10: return "A"; break;
+					case 11: return "B"; break;
+					case 12: return "C"; break;
+					case 13: return "D"; break;
+					case 14: return "E"; break;
+					case 15: return "F"; break;
+					case 16: return "G"; break;
+					case 17: return "H"; break;
+					case 18: return "I"; break;
+					case 19: return "J"; break;
+					case 20: return "K"; break;
+					case 21: return "L"; break;
+					case 22: return "M"; break;
+					case 23: return "N"; break;
+					case 24: return "O"; break;
+					case 25: return "P"; break;
+					case 26: return "Q"; break;
+					case 27: return "R"; break;
+					case 28: return "S"; break;
+					case 29: return "T"; break;
+					case 30: return "U"; break;
+					case 31: return "V"; break;
+					case 32: return "W"; break;
+					case 33: return "X"; break;
+					case 34: return "Y"; break;
+					case 35: return "Z"; break;
+					default: return x.toString();
+				}
 			}
 			
 			return ans.join("");
