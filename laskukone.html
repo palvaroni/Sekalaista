@@ -46,7 +46,7 @@
 			k1 = parseInt(k1);
 			k2 = parseInt(k2);
 			
-			if (k1 > 1 && k1 < 37) { // alko laiskottaa :::DDDD
+			if (k1 > 1 && k1 < 37) { // alkoi laiskottaa :D
 				x = parseInt(x, k1);
 			}
 			
@@ -76,12 +76,12 @@
 					p--;
 				}
 				
-				ans[ind] = z; // Viimeinen luku \(.__.)/
+				ans[ind] = z; // Viimeinen luku
 			}
 			
 			if (ans.length > 0) {
 				// Muunnetaan liian isot luvut pienemmiksi,
-				// käännös oikeaan merkkijärjestelmään :D:D:D
+				// käännös oikeaan merkkijärjestelmään
 				for (var ind = ans.length-1; ind > 0; ind--){
 					if (ans[ind] >= k2) {
 						ans[ind] = 0;
@@ -96,7 +96,7 @@
 				ans[0] = enc(ans[0]);
 			}
 			
-			function enc(x){ // kikkailu mielessä tehty näin ::))
+			function enc(x){ // kikkailumielessä tehty näin :)
 				switch(x){
 					case 10: return "A"; break;
 					case 11: return "B"; break;
