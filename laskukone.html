@@ -1,14 +1,13 @@
 <!doctype html>
-	<!-- 
-		Manuaalinen kantalukumuunnin, tekee muunnokset kymmenkantaisen järjestelmän kautta.
-	-->
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Ronin ihan turha laskukone :)</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ronin ihan turha laskukone</title>
+	
   </head>
   <body style="text-align:center;margin-top:10%;">
-	<h1>Pimpeli pompeli</h1>
+	<h1>Lukumuunnin</h1>
 	<h3>Vain kokonaislukuja kiitos :)</h3>
 	<hr>
 	<form id="numberform">
@@ -29,6 +28,11 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha256-KXn5puMvxCw+dAYznun+drMdG1IFl3agK0p/pqT9KAo= sha512-2e8qq0ETcfWRI4HJBzQiA3UoyFk6tbNyG+qSaIBZLyW9Xf3sWZHN/lxe9fTh1U45DpPf07yj94KsUHHWe4Yk1A==" crossorigin="anonymous"></script>
     <script>
 		
+		/**
+		 * Muuntaa lukuja kantaluvusta toiseen manuaalisesti,
+		 * muunnos tapahtuu kymmenkantaisen lukujärjestelmän kautta.
+		 */
+		
 		$(function() {
 			$('input').on('keyup', muunna);
 		});
@@ -43,11 +47,11 @@
 		}
 	
 		function muunnos(x, k2, k1){
-			k1 = parseInt(k1);
-			k2 = parseInt(k2);
+			k1 = ~~k1;
+			k2 = ~~k2;
 			
 			if (k1 > 1 && k1 < 37) { // alkoi laiskottaa :D
-				x = parseInt(x, k1);
+				x = parseInt(x, k1); // muunnetaan syötetty luku 10-kantaiseen järjestelmään
 			}
 			
 			var ans = [];
@@ -59,7 +63,7 @@
 				while (x >= Math.pow(k2, p+1)) p++; // Määritetään korkein potenssi
 				while (z > k2) {
 				
-					// Logiikan kaava: n = i[1] * k2^p + i[2] * k2^p-1 + ... + i[n] * k2^0
+					// Kaava: n = i[1] * k2^p + i[2] * k2^p-1 + ... + i[n] * k2^0
 				
 					var i = 0;
 					var pot = Math.pow(k2, p);
@@ -76,13 +80,13 @@
 					p--;
 				}
 				
-				ans[ind] = z; // Viimeinen luku
+				ans[ind] = z; // Viimeinen luku \(.__.)/
 			}
 			
 			if (ans.length > 0) {
 				// Muunnetaan liian isot luvut pienemmiksi,
 				// käännös oikeaan merkkijärjestelmään
-				for (var ind = ans.length-1; ind > 0; ind--){
+				for (ind; ind > 0; ind--){
 					if (ans[ind] >= k2) {
 						ans[ind] = 0;
 						ans[ind-1]++;
@@ -96,7 +100,7 @@
 				ans[0] = enc(ans[0]);
 			}
 			
-			function enc(x){ // kikkailumielessä tehty näin :)
+			function enc(x){ // kikkailu mielessä tehty näin ::))
 				switch(x){
 					case 10: return "A"; break;
 					case 11: return "B"; break;
