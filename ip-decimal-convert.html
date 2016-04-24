@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ip - desimaalimuunnin</title>
+	
+  </head>
+  <body style="text-align:center;margin-top:10%;">
+	<h1>IP-desimaalimuunnin</h1>
+	<h3>Rok en roll</h3>
+	<hr>
+	<form id="numberform">
+		<label for="luku">Ip:</label>
+		<input id="ip" type="text" value="192.168.0.0" name="ip" placeholder="Ip (esim. 0.0.0.0)">
+		<br>
+		<label for="lkanta">Desimaali:</label>
+		<input id="des" type="text" value="" name="des" placeholder="Desimaaliarvo">
+	</form>
+	<div id="output"></div>
+  
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">
+	
+	<script src="https://code.jquery.com/jquery-2.2.0.min.js" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha256-KXn5puMvxCw+dAYznun+drMdG1IFl3agK0p/pqT9KAo= sha512-2e8qq0ETcfWRI4HJBzQiA3UoyFk6tbNyG+qSaIBZLyW9Xf3sWZHN/lxe9fTh1U45DpPf07yj94KsUHHWe4Yk1A==" crossorigin="anonymous"></script>
+    <script>
+		$(function() {
+			$('input').on('keyup', muunna);
+		});
+		
+		function muunna(){
+			var ip = $('#ip').val();
+			var des = $('#des').val();
+			
+			if (ip.length > 0 || des.length > 0)
+				$('#output').html('<h2>' + muunnos($(this)[0], ip, des) + '</h2>');
+		}
+		
+		function muunnos(elem, ip, des) {
+			if (elem.id == 'ip') {
+				var vals = ip.split('.');
+				
+				var exp = vals.length - 1,
+					result = 0;
+				
+				for (var v of vals) {
+					result += ~~v * Math.pow(256, exp);
+					exp--;
+				}
+				
+				return result;				
+			} else if (elem.id == 'des') {
+				var result = "";
+				des = ~~des;
+				
+				result += (des >>> 24 & 0xff) +'.';
+				result += (des >>> 16 & 0xff) +'.';
+				result += (des >>> 8 & 0xff) +'.';
+				result += des & 0xff;
+				
+				return result;
+			}
+		}
+	</script>
+  </body>
+</html>
