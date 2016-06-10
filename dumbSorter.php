@@ -6,10 +6,10 @@ $currIndex = -1;
 $lastIndex = count($nameArr) - 1;
 
 while ($currIndex < $lastIndex) {
-    foreach ($nameArr as &$name) {
+    foreach ($nameArr as $key => $name) {
         if (strtoupper($name[0]) === $currentChar) {
             $sortedArr[] = $name;
-            unset($name);
+            unset($nameArr[$key]);
         }
     }
 
