@@ -6,6 +6,16 @@ function _randomPassword(l) {
   cryptoObj.getRandomValues(buf);
   
   l -= 1;
+  
+  /**
+   * Implement configurable arrays &
+   * ensurance of special chars something
+   * like this (randomise index though):
+   * 
+   *      var sl = specials.length - 1
+   *      s += specials[Math.floor((sl*(buf[i]/255)) + 0.5)];
+   */
+  
   for (var i = 0; i < l; i++) {
     s += buf[i].toString(16);
   }
