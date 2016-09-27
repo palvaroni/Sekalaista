@@ -1,28 +1,3 @@
-function _randomPassword(l) {
-  var cryptoObj = window.crypto || window.msCrypto;
-  var buf = new Uint8Array(l);
-  var s = '';
-  
-  cryptoObj.getRandomValues(buf);
-  
-  l -= 1;
-  
-  /**
-   * Implement configurable arrays &
-   * ensurance of special chars something
-   * like this (randomise index though):
-   * 
-   *      var sl = specials.length - 1
-   *      s += specials[Math.floor((sl*(buf[i]/255)) + 0.5)];
-   */
-  
-  for (var i = 0; i < l; i++) {
-    s += buf[i].toString(16);
-  }
-  
-  return s;
-}
-
 var specials = '!@#$%^&*()_+{}:"<>?\|[];\',./`~';
 var lowercase = 'abcdefghijklmnopqrstuvwxyz';
 var uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -30,36 +5,44 @@ var numbers = '0123456789';
 
 var all = specials + lowercase + uppercase + numbers;
 
-String.prototype.pick = function(min, max) {
-    var n, chars = '';
-
-    if (typeof max === 'undefined') {
-        n = min;
-    } else {
-        n = min + Math.floor(Math.random() * (max - min));
+function _randomPassword(l) {
+  var cryptoObj = window.crypto || window.msCrypto;
+  
+  var buf = new Uint8Array(l);
+  var indexer = new Uint8Array(l);
+  
+  var s = '';
+ 
+  cryptoObj.getRandomValues(buf);
+  cryptoObj.getRandomValues(indexer);
+  
+  var sl = specials.length - 1;
+  var ll = lowercase.length - 1;
+  var ul = uppercase.length - 1;
+  var nl = numbers.length - 1;
+  var al = all.length - 1;
+  
+  var indexes = [];  
+  (function _generateIndexOrder() {
+    let lth = indexer.length - 1;
+    for (let i = lth; i >= 0; i--) {
+      let count = 0;
+      for (let j = 0; j <= lth; j++) {
+        if (indexer[j] > indexer[i]) count++;
+        else if (indexer[j] === indexer[i] && j < i) count++;
+      }
+      indexes[i] = count;
     }
-
-    for (var i = 0; i < n; i++) {
-        chars += this.charAt(Math.floor(Math.random() * this.length));
-    }
-
-    return chars;
-};
-
-
-// Credit to @Christoph: http://stackoverflow.com/a/962890/464744
-String.prototype.shuffle = function() {
-    var array = this.split('');
-    var tmp, current, top = array.length;
-
-    if (top) while (--top) {
-        current = Math.floor(Math.random() * (top + 1));
-        tmp = array[current];
-        array[current] = array[top];
-        array[top] = tmp;
-    }
-
-    return array.join('');
-};
-
-var password = (specials.pick(1) + lowercase.pick(1) + uppercase.pick(1) + all.pick(3, 10)).shuffle();
+  })();
+  
+  s[indexes[0]] = specials[Math.floor((sl*(buf[i]/255)) + 0.5)];
+  s[indexes[1]] = lowercase[Math.floor((ll*(buf[i]/255)) + 0.5)];
+  s[indexes[2]] = uppercase[Math.floor((ul*(buf[i]/255)) + 0.5)];
+  s[indexes[3]] = numbers[Math.floor((nl*(buf[i]/255)) + 0.5)];
+  
+  for (var i = 4; i < l; i++) {
+    s[indexes[i]] = all[Math.floor((nl*(buf[i]/255)) + 0.5)];
+  }
+  
+  return s;
+}
