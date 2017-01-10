@@ -2,8 +2,8 @@
 f=n=>n&&1+f(n>>>1);
 
 /*
-function f(n) {
-  if (n > 0) {
+f = function(n) {
+  if (n) { 
     return 1+f(n>>>1);
   }
   return 0;
