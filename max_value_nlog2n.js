@@ -4,7 +4,7 @@
  * can be evaluated in the given amount of
  * time units n.
  * 
- * Using this Lambert W implementation
+ * [Using this Lambert W implementation](https://github.com/protobi/lambertw)
  * https://github.com/protobi/lambertw
  */
 function max_param_nlog2n(n) {
