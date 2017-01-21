@@ -1,4 +1,4 @@
-```
+```javascript
 /**
  * Return maximum int value for parameter with
  * which an algorithm of complexity O(n log2 n)
