@@ -4,12 +4,7 @@
  * the given value n.
  */
 function max_factorial_root(n) {
-	let carry = n,
-			z = 1;
-		
-	while(z < carry) {
-		carry /= ++z;
-	}
-	
+	let carry = n, z = 1;
+	while(z < carry) carry /= ++z;
 	return z;
 }
