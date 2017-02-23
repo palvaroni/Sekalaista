@@ -41,7 +41,7 @@ function FantsuTuplaPino() {
 			null : memoryStuff[stackPointer1--];
 	}
 	this.pop2 = function() {
-		return (stackPointer2 >= 100)?
+		return (stackPointer2 >= 100) ?
 			null : memoryStuff[stackPointer2++];
 	}
 	this.push1 = function(thing) {
@@ -53,7 +53,7 @@ function FantsuTuplaPino() {
 	}
 	this.push2 = function(thing) {
 		if (stackPointer2 - 1 <= stackPointer1) {
-			return false
+			return false;
 		}
 		memoryStuff[--stackPointer2] = thing;
 		return true;
