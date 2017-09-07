@@ -17,9 +17,11 @@ function t2(sprintcount) {
 }
 
 function t3(sprintcount) {
-  return (Math.pow(sprintcount, 3)
-    + 3 * Math.pow(sprintcount, 2)
-    + 2 * sprintcount) / (4 * sprintcount);
+  return (
+      Math.pow(sprintcount, 2)
+      + 3 * sprintcount
+      + 2
+    ) / 4;
 }
 
 console.log(t1(100), t2(100), t3(100));
