@@ -1,4 +1,3 @@
-
 function t1(sprintcount) {
   let sum = 0;
 
@@ -10,10 +9,17 @@ function t1(sprintcount) {
   return sum;
 }
 
-function t2(sprintcount, offset) {
-  // This no solid Implement dirac
-  offset = sprintcount * offset;
-  return 1 / 4 * Math.pow(sprintcount - offset, 2) + sprintcount;
+function t2(sprintcount) {
+  return 1 / 4 * Math.pow(sprintcount, 2)
+    + sprintcount
+    - Math.pow(sprintcount, 2) / (4 * sprintcount)
+    + 1 / 2;
 }
 
-console.log(t1(100), t2(100, .00451));
+function t3(sprintcount) {
+  return (Math.pow(sprintcount, 3)
+    + 3 * Math.pow(sprintcount, 2)
+    + 2 * sprintcount) / (4 * sprintcount);
+}
+
+console.log(t1(100), t2(100), t3(100));
