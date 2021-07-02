@@ -43,10 +43,9 @@ function app()
 	
 	//return test(board);
 
-	const enumerate = (_x, _y) =>
+	const enumerate = (x, y) =>
 	{
-		let y = _y;
-		for (let x = _x; x <= 7; x++)
+		for (; x <= 7; x++)
 		{
 			for (; y <= 7; y++)
 			{
