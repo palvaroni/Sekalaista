@@ -1,0 +1,199 @@
+<!doctype html>
+<html>
+<script>
+document.addEventListener('DOMContentLoaded', app);
+
+// Draw tested coordinates
+function test(board)
+{
+	coord = [3, 3];
+	board[coord[0]] = board[coord[0]].map(_ => 1);
+	for (const row of board) {
+		row[coord[1]] = 1;
+	}
+	
+	diagonals((test, next) => {
+		let co = coord;
+		while (test(co))
+		{
+			board[co[0]][co[1]] = 1;
+			co = next(co);
+		}
+		return true;
+	});
+	
+	console.log(board);
+	container.innerHTML = board.map(row => row.map(val => val.toString()).join(' ')).join('\n');
+}
+
+function app()
+{
+	const container = document.getElementById('container');
+	const queens = [];
+	const board = [
+		[0,0,0,0,0,0,0,0],
+		[0,0,0,0,0,0,0,0],
+		[0,0,0,0,0,0,0,0],
+		[0,0,0,0,0,0,0,0],
+		[0,0,0,0,0,0,0,0],
+		[0,0,0,0,0,0,0,0],
+		[0,0,0,0,0,0,0,0],
+		[0,0,0,0,0,0,0,0]
+	];
+	
+	//return test(board);
+
+	const enumerate = (_x, _y) =>
+	{
+		let y = _y;
+		for (let x = _x; x <= 7; x++)
+		{
+			for (; y <= 7; y++)
+			{
+				if (canAddQueen(x, y, board))
+				{
+					board[x][y] = 1;
+					queens.push([x, y]);
+					break;
+				}
+			}
+			y = 0;
+		}
+
+		console.log('current board\n' + [].concat(board.map(row => [].concat(row))).map(row => row.join('-')).join('\n'));
+	}
+	
+	let iter = 0;
+	
+	enumerate(0, 0);
+	
+	while(iter < 5000 && queens.length < 8)
+	{
+		const findCoords = () =>
+		{
+			let coords = [0, 0];
+			
+			if (queens.length > 0)
+			{
+				coords = [].concat(queens.pop());
+			}
+			
+			removeQueen(coords[0], coords[1], board);
+			
+			if (++coords[1] > 7)
+			{
+				coords[1] = 0;
+				++coords[0];
+				
+				if (coords[0] > 7)
+				{
+					return findCoords();
+				}
+			}
+
+			return coords;
+		};
+		
+		const coords = findCoords();
+		console.log('start again from', coords[0], coords[1]);
+		enumerate(coords[0], coords[1]);
+		iter++;
+	}
+	
+	let output = '';
+	for (let x = 0; x <= 7; x++)
+	{
+		for (let y = 0; y <= 7; y++)
+		{
+			if (board[x][y] === 1)
+			{
+				output += '&#9635; ';
+			}
+			else if ((x % 2) + (y % 2) === 1)
+			{
+				output += '&#9636; ';
+			}
+			else
+			{
+				output += '&#9634; ';
+			}
+		}
+		output += '\n';
+	}
+	
+	container.innerHTML = 'IN ' + iter + ' ITERATIONS:<br/><pre style="background: yellow">' + output + '</pre>';
+}
+
+function removeQueen(x, y, board)
+{
+	board[x][y] = 0;
+}
+
+function canAddQueen(x, y, board)
+{
+	if (board[x][y] === 1)
+	{
+		//console.log(x, y, 'already a queen');
+		return false;
+	}
+	else if (board[x].includes(1))
+	{
+		//console.log(x, y, 'x axis already contains a queen');
+		return false;
+	}
+	else if (board.map(row => row[y]).includes(1))
+	{
+		//console.log(x, y, 'y axis already contains a queen');
+		return false;
+	}
+	else
+	{
+		const testDiagonal = (test, next) => enumerateDiagonal(test, next, [x, y], board);
+		const diagonalOccupied = !diagonals((test, next) => testDiagonal(test, next));
+		if (diagonalOccupied)
+		{
+			//console.log(x, y, 'diagonal occupied');
+			return false;
+		}
+	}
+	
+	console.log(x, y, 'Can add queen to coordinates');
+	return true;
+}
+
+function isOccupied(x, y, board)
+{
+	return board[x][y] > 0;
+}
+
+function enumerateDiagonal(test, next, start, board)
+{
+	while(test(start))
+	{
+		if (isOccupied(start[0], start[1], board)) return false;
+		start = next(start);
+	}
+	return true;
+}
+
+function diagonals(cb)
+{
+	const res =
+		// down left
+		cb(coord => coord[0] >= 0 && coord[1] >= 0, coord => coord.map(c => --c))
+		&&
+		// up right
+		cb(coord => coord[0] <= 7 && coord[1] <= 7, coord => coord.map(c => ++c))
+		&&
+		// up left
+		cb(coord => coord[0] >= 0 && coord[1] <= 7, coord => [--coord[0], ++coord[1]])
+		&&
+		// down right
+		cb(coord => coord[0] <= 7 && coord[1] >= 0, coord => [++coord[0], --coord[1]]);
+	
+	return res;
+}
+
+</script>
+<body style="font-size:3em"><div id="container" style="margin:20vh auto; width:410px;"><pre></pre></div></body>
+</html>
